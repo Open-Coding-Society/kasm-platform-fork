@@ -1,0 +1,5 @@
+- hosts:
+    - zone1_db_1
+  roles:
+    - backup_db
+ 
