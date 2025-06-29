@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page 
 title: KASM User Guide
 description: How to Start Using KASM
 categories: ['Kasm']
