@@ -36,7 +36,7 @@ timezone: PT # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones 
 author:
   type      : "organization" # "person" (default), "organization"
   name      : Open Coding Society
-  url       : https://gitub.com/OpenCodingSociety # the homepage of the author, e.g. https://www.someone.com
+  url       : https://github.com/OpenCodingSociety # the homepage of the author, e.g. https://www.someone.com
   avatar    : # path or url of avatar image (square)
   bio       : We are the open coding society, a group of open source enthusiasts who are dedicated to building and maintaining open source projects and starters.
   email     :
@@ -226,4 +226,4 @@ plugins:
   - jekyll-sitemap
   - jemoji
 
-remote_theme: jekyll/minima
+remote_theme: kitian616/jekyll-TeXt-theme
