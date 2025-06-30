@@ -9,10 +9,10 @@ import subprocess
 from hashlib import sha256
 import concurrent.futures, traceback, re
 
-# if __name__ == "__main__":
-#     from progress_bar import ProgressBar
-# else:
-#     from scripts.progress_bar import ProgressBar
+if __name__ == "__main__":
+    from progress_bar import ProgressBar
+else:
+    from scripts.progress_bar import ProgressBar
 
 
 notebook_directory = "_notebooks"
@@ -101,9 +101,9 @@ def convert_notebooks():
     notebook_files = glob.glob(f"{notebook_directory}/**/*.ipynb", recursive=True)
 
     # create progress bar
-    # convertBar = ProgressBar(
-    #     userInfo="Notebook conversion progress:", total=(len(notebook_files))
-    # )
+    convertBar = ProgressBar(
+        userInfo="Notebook conversion progress:", total=(len(notebook_files))
+    )
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=maxCores) as executor:
         futures = {
@@ -112,17 +112,19 @@ def convert_notebooks():
         }
 
         for future in concurrent.futures.as_completed(futures):
+            notebook_file = futures[future]
             try:
                 future.result()
             except Exception as e:
                 print(
-                    f"Error occurred during notebook processing: {traceback.format_exc()}"
+                    f"Error occurred during notebook processing: {notebook_file}\n{traceback.format_exc()}"
                 )
-            # finally:
-                # update the progress bar in the main thread
-                # convertBar.continue_progress()
+            finally:
+                rel_path = os.path.relpath(notebook_file, notebook_directory)
+                convertBar.set_suffix(rel_path)
+                convertBar.continue_progress()
 
-    # convertBar.end_progress()
+    convertBar.end_progress()
 
 
 # MERMAID STUFF =========

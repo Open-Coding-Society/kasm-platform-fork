@@ -2,3 +2,4 @@ nbconvert
 nbformat
 pyyaml
 notebook
+progress
