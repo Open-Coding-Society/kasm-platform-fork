@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Terraform Vs Ansible
 description: Differences Between Terraform and Ansible
 type: ccc
