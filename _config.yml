@@ -200,6 +200,8 @@ exclude:
   - /screenshots
   - /test
   - /vendor
+  - /venv
+  - venv/
 
 defaults:
   - scope:

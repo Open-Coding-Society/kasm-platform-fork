@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Kasm Multi-Server Installer Developers Guide
 description: This document goes through the menu options and other options while explaining how the system is configured and works. Think of this as an extended guide explaining how everything works.
 type: ccc
