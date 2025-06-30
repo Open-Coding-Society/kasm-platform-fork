@@ -43,3 +43,9 @@ backup/
 *.DS_Store
 save_*
 *.pyc
+
+venv/
+*_IPYNB_2_.md
+registry/processing/package-lock.json
+registry/site/yarn.lock
+_posts/Kasm/User_Guide/2024-11-17-user-kasm_IPYNB_2_.md
