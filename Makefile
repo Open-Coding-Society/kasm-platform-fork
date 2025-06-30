@@ -11,13 +11,10 @@ SHELL = /bin/bash -c
 
 # List all .ipynb files in the _notebooks directory
 NOTEBOOK_FILES := $(shell find _notebooks -name '*.ipynb')
-CSP_NOTEBOOK_FILES := $(shell find _notebooks/CSP -name '*.ipynb')
 
 # Specify the target directory for the converted Markdown files
 DESTINATION_DIRECTORY = _posts
 MARKDOWN_FILES := $(patsubst _notebooks/%.ipynb,$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md,$(NOTEBOOK_FILES))
-CSP_MARKDOWN_FILES := $(patsubst _notebooks/CSP/%.ipynb,$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md,$(CSP_NOTEBOOK_FILES))
-
 # Call server, then verify and start logging
 # ...
 
