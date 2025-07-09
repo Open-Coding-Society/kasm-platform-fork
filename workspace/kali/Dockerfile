@@ -1,5 +1,4 @@
-FROM kasmweb/core-kali-rolling:1.17.0
-
+FROM kasmweb/kali-rolling-desktop:1.17.0-rolling-weekly
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -15,7 +14,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     INST_SCRIPTS="/ubuntu/install/kali/install_kali.sh \
                   /ubuntu/install/chrome/install_chrome.sh \
                   /ubuntu/install/chromium/install_chromium.sh \
-                  /ubuntu/install/sublime_text/install_sublime_text.sh \
                   /ubuntu/install/slack/install_slack.sh \
                   /ubuntu/install/vs_code/install_vs_code.sh \
                   /ubuntu/install/postman/install_postman.sh \
