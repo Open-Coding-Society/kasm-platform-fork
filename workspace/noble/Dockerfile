@@ -1,4 +1,4 @@
-FROM kasmweb/ubuntu-noble-desktop:1.16.1-rolling-weekly
+FROM kasmweb/ubuntu-noble-desktop:1.17.0-rolling-weekly
 USER root
 
 ENV HOME=/home/kasm-default-profile
