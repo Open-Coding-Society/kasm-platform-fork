@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DONT_PROMPT_WSL_INSTALL="No_Prompt_please" \
     INST_DIR=$STARTUPDIR/install \
     INST_SCRIPTS="/ubuntu/install/kali/install_kali.sh \
+                  /ubuntu/install/tools/install_tools.sh \
                   /ubuntu/install/chrome/install_chrome.sh \
                   /ubuntu/install/chromium/install_chromium.sh \
                   /ubuntu/install/slack/install_slack.sh \
