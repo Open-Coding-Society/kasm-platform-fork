@@ -197,14 +197,13 @@ Test Kali Linux security tools:
 
 ```bash
 # Test network tools
-nmap -V
 netstat --version
 
 # Test security frameworks
-msfconsole -v 2>/dev/null || echo "Metasploit available"
+msfconsole -v
 
 # Test web testing tools
-sqlmap --version 2>/dev/null || echo "SQLMap available"
+sqlmap --version
 ```
 
 This test validates:
@@ -275,7 +274,7 @@ If you need to clear your login session or troubleshoot authentication:
 
 1. Open your browser's Developer Tools (F12)
 2. Go to "Application" or "Storage" tab
-3. Find "Cookies" → "https://localhost:6902"
+3. Find "Cookies" → `https://localhost:6902`
 4. Delete all cookies for this domain
 
 ### Method 2: Browser Settings

@@ -62,6 +62,7 @@ apt-get update && log "APT update complete"
 apt-get install -y \
     curl \
     sudo \
+    lsof \
     wget \
     nano \
     zip \
@@ -77,7 +78,7 @@ apt-get install -y \
     ca-certificates \
     software-properties-common \
     && log "APT packages installed"
-    # Note: JDK packages commented out for Kali compatibility
+    # Note: JDK packages not required as already provided by the base image 
     # default-jdk \
     # default-jre-headless \
 
