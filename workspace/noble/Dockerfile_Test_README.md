@@ -143,3 +143,30 @@ code --version
 echo $GEM_HOME
 echo $PATH
 ```
+
+### 🚀 Real-World Test: GitHub Pages Development
+
+Test the complete development workflow:
+
+```bash
+mkdir open
+cd open
+git clone https://github.com/Open-Coding-Society/pages.git
+cd pages
+pagesenv
+bundle install
+make
+```
+
+**Expected Result:**
+```
+Server started in 12 seconds
+    Server address: http://127.0.0.1:4500/
+```
+
+This test validates:
+- ✅ Git operations work correctly
+- ✅ Python virtual environment (`pagesenv`) activates properly
+- ✅ Ruby gems and bundler are pre-installed and functional
+- ✅ Jekyll development server starts without issues
+- ✅ No startup delays for development environments
