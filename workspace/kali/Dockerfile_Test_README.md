@@ -1,4 +1,4 @@
-# KASM Noble Image - Docker Desktop Guide
+# KASM Kali Image - Docker Desktop Guide
 
 ## 📥 Prerequisites - Install Docker Desktop
 
@@ -43,38 +43,38 @@
 
 1. Go to the "Images" tab
 2. Click "Build an image"
-3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace/noble`
-4. Name the image: `kasm-noble-test:latest`
+3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace/kali`
+4. Name the image: `kasm-kali-test:latest`
 5. Click "Build"
 
 ### Option 2: Using Terminal (if CLI issues persist)
 
 ```bash
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
+docker build -t kasm-kali-test:latest .
 ```
 
 ### Option 3: Clean Rebuild (Force rebuild without cache)
 
 ```bash
 # Clean up existing images and containers first
-docker stop kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
+docker stop kasm-kali-test-container 2>/dev/null || true
+docker rm kasm-kali-test-container 2>/dev/null || true
+docker rm kasm-kali-test-container 2>/dev/null || true
 # Clean build without cache
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build --no-cache -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
+docker build --no-cache -t kasm-kali-test:latest .
 ```
 
 ### Option 4: Deep Clean + Rebuild (Free up maximum space)
 
 ```bash
 # Stop and remove all containers using KASM images
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest) 2>/dev/null || true
-docker rm $(docker ps -aq --filter ancestor=kasm-noble-test:latest) 2>/dev/null || true
+docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest) 2>/dev/null || true
+docker rm $(docker ps -aq --filter ancestor=kasm-kali-test:latest) 2>/dev/null || true
 
 # Remove KASM images
-docker rmi kasm-noble-test:latest 2>/dev/null || true
+docker rmi kasm-kali-test:latest 2>/dev/null || true
 
 # Clean Docker system (removes unused containers, networks, images)
 docker system prune -f
@@ -83,8 +83,8 @@ docker system prune -f
 docker builder prune -f
 
 # Rebuild from scratch
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build --no-cache --pull -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
+docker build --no-cache --pull -t kasm-kali-test:latest .
 ```
 
 ## 🚀 Running the Container
@@ -92,7 +92,7 @@ docker build --no-cache --pull -t kasm-noble-test:latest .
 ### Via Docker Desktop UI:
 
 1. Go to "Images" tab
-2. Find `kasm-noble-test:latest`
+2. Find `kasm-kali-test:latest`
 3. Click "Run" button
 4. Configure ports:
    - Host Port 6901 → Container Port 6901 (Web/VNC)
@@ -103,36 +103,37 @@ docker build --no-cache --pull -t kasm-noble-test:latest .
 ### Via Terminal:
 
 **Minimal Command (recommended):**
-
 ```bash
-docker run -d --name kasm-noble-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -d --name kasm-kali-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
 ```
 
 **If you get "container name already in use" error:**
 ```bash
 # Stop and remove the existing container first
-docker stop kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
+docker stop kasm-kali-test-container 2>/dev/null || true
+docker rm kasm-kali-test-container 2>/dev/null || true
 
 # Then run the container again
-docker run -d --name kasm-noble-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -d --name kasm-kali-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+```
+```
 ```
 
 **Full Command (with optional features):**
 
 ```bash
 docker run -d \
-  --name kasm-noble-test-container \
+  --name kasm-kali-test-container \
   -p 6901:6901 \
   --shm-size=512m \
   -e VNC_PW=password \
-  kasm-noble-test:latest
+  kasm-kali-test:latest
 ```
 
 **Interactive Command (for debugging):**
 
 ```bash
-docker run -it --rm -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -it --rm -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
 ```
 
 ## 🌐 Accessing Your KASM Workspace
@@ -160,6 +161,10 @@ bundle --version
 # Test VS Code
 code --version
 
+# Test Kali-specific tools
+nmap --version
+burpsuite --version 2>/dev/null || echo "Burp Suite available in GUI"
+
 # Check environment
 echo $GEM_HOME
 echo $PATH
@@ -186,12 +191,29 @@ Server started in 12 seconds
     Server address: http://127.0.0.1:4500/
 ```
 
+### 🔒 Kali-Specific Testing
+
+Test Kali Linux security tools:
+
+```bash
+# Test network tools
+nmap -V
+netstat --version
+
+# Test security frameworks
+msfconsole -v 2>/dev/null || echo "Metasploit available"
+
+# Test web testing tools
+sqlmap --version 2>/dev/null || echo "SQLMap available"
+```
+
 This test validates:
 
 - ✅ Git operations work correctly
 - ✅ Python virtual environment (`pagesenv`) activates properly
 - ✅ Ruby gems and bundler are pre-installed and functional
 - ✅ Jekyll development server starts without issues
+- ✅ Kali Linux security tools are available
 - ✅ No startup delays for development environments
 
 ## 🛑 Stopping and Managing Containers
@@ -200,16 +222,16 @@ This test validates:
 
 **Via Docker Desktop UI:**
 1. Go to "Containers" tab
-2. Find your running `kasm-noble-test-container`
+2. Find your running `kasm-kali-test-container`
 3. Click "Stop" button
 
 **Via Terminal:**
 ```bash
-# Stop by container name:
-docker stop kasm-noble-test-container
+# Stop by container name
+docker stop kasm-kali-test-container
 
-# Or stop by image (stops all containers using this image):
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
+# Or stop by image (stops all containers using this image)
+docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
 ```
 
 ### Remove the Container
@@ -219,10 +241,10 @@ docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
 
 **Via Terminal:**
 ```bash
-# Remove by container name:
-docker rm kasm-noble-test-container
+# Remove by container name
+docker rm kasm-kali-test-container
 
-# Or remove all stopped containers:
+# Or remove all stopped containers
 docker container prune -f
 ```
 
@@ -237,7 +259,7 @@ lsof -i :6901
 sudo lsof -ti:6901 | xargs kill -9
 
 # Or stop all KASM containers
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
+docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
 ```
 
 ## 🍪 Clearing Login Cookies
@@ -270,3 +292,32 @@ If you need to clear your login session or troubleshoot authentication:
 - Testing different user scenarios
 - Switching between different KASM containers
 - Troubleshooting session-related problems
+
+## 📋 Container Management in Docker Desktop
+
+1. **View Logs**: Go to "Containers" tab → Click your container → "Logs" tab
+2. **Shell Access**: Click "CLI" button or "Exec" tab
+3. **Stop Container**: Click "Stop" button
+4. **Remove Container**: Click "Delete" button
+
+## 🔧 Troubleshooting
+
+If build fails:
+
+1. Check Docker Desktop is running
+2. Ensure you're in the correct directory
+3. Check Dockerfile syntax
+4. Try building with Docker Desktop UI instead of CLI
+
+## 📊 Expected Build Time
+
+- Initial build: 15-25 minutes (downloading Kali base image + installing tools)
+- Subsequent builds: 5-10 minutes (using cache)
+
+## ✅ Success Indicators
+
+- Container shows "Running" status in Docker Desktop
+- Web interface accessible at localhost:6901
+- All virtual environments and gems are pre-installed
+- Kali Linux security tools are available
+- No startup delays for development environments
