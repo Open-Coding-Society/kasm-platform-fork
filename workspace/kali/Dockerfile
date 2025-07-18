@@ -1,8 +1,8 @@
 FROM kasmweb/kali-rolling-desktop:1.17.0-rolling-weekly
 USER root
 
-ENV HOME /home/kasm-default-profile
-ENV STARTUPDIR /dockerstartup
+ENV HOME=/home/kasm-default-profile
+ENV STARTUPDIR=/dockerstartup
 WORKDIR $HOME
 
 ### Envrionment config
@@ -37,7 +37,7 @@ RUN \
   rm -Rf ${INST_DIR}
 
 # Userspace Runtime
-ENV HOME /home/kasm-user
+ENV HOME=/home/kasm-user
 WORKDIR $HOME
 USER 1000
 

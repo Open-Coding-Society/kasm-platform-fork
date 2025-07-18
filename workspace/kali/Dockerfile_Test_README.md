@@ -95,7 +95,7 @@ docker build --no-cache --pull -t kasm-kali-test:latest .
 2. Find `kasm-kali-test:latest`
 3. Click "Run" button
 4. Configure ports:
-   - Host Port 6901 → Container Port 6901 (Web/VNC)
+   - Host Port 6902 → Container Port 6901 (Web/VNC)
 5. Set environment variable: `VNC_PW=password`
 6. Set shared memory: `--shm-size=512m`
 7. Click "Run"
@@ -103,20 +103,20 @@ docker build --no-cache --pull -t kasm-kali-test:latest .
 ### Via Terminal:
 
 **Minimal Command (recommended):**
+
 ```bash
-docker run -d --name kasm-kali-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+docker run -d --name kasm-kali-test-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
 ```
 
 **If you get "container name already in use" error:**
+
 ```bash
 # Stop and remove the existing container first
 docker stop kasm-kali-test-container 2>/dev/null || true
 docker rm kasm-kali-test-container 2>/dev/null || true
 
 # Then run the container again
-docker run -d --name kasm-kali-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
-```
-```
+docker run -d --name kasm-kali-test-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
 ```
 
 **Full Command (with optional features):**
@@ -124,7 +124,7 @@ docker run -d --name kasm-kali-test-container -p 6901:6901 --shm-size=512m -e VN
 ```bash
 docker run -d \
   --name kasm-kali-test-container \
-  -p 6901:6901 \
+  -p 6902:6901 \
   --shm-size=512m \
   -e VNC_PW=password \
   kasm-kali-test:latest
@@ -133,15 +133,15 @@ docker run -d \
 **Interactive Command (for debugging):**
 
 ```bash
-docker run -it --rm -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+docker run -it --rm -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
 ```
 
 ## 🌐 Accessing Your KASM Workspace
 
 Once the container is running:
 
-- **Web Access**: https://localhost:6901
-- **VNC Access**: localhost:6901
+- **Web Access**: https://localhost:6902
+- **VNC Access**: localhost:6902
 - **Username**: `kasm_user` (note: underscore, not hyphen)
 - **Password**: `password`
 
@@ -221,11 +221,13 @@ This test validates:
 ### Stop the Container
 
 **Via Docker Desktop UI:**
+
 1. Go to "Containers" tab
 2. Find your running `kasm-kali-test-container`
 3. Click "Stop" button
 
 **Via Terminal:**
+
 ```bash
 # Stop by container name
 docker stop kasm-kali-test-container
@@ -237,9 +239,11 @@ docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
 ### Remove the Container
 
 **Via Docker Desktop UI:**
+
 1. After stopping, click "Delete" button
 
 **Via Terminal:**
+
 ```bash
 # Remove by container name
 docker rm kasm-kali-test-container
@@ -248,15 +252,16 @@ docker rm kasm-kali-test-container
 docker container prune -f
 ```
 
-### Free Up Port 6901
+### Free Up Port 6902
 
 If you get "port already in use" errors:
-```bash
-# Find what's using port 6901
-lsof -i :6901
 
-# Kill any process using port 6901 (macOS/Linux)
-sudo lsof -ti:6901 | xargs kill -9
+```bash
+# Find what's using port 6902
+lsof -i :6902
+
+# Kill any process using port 6902 (macOS/Linux)
+sudo lsof -ti:6902 | xargs kill -9
 
 # Or stop all KASM containers
 docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
@@ -267,12 +272,14 @@ docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
 If you need to clear your login session or troubleshoot authentication:
 
 ### Method 1: Browser Developer Tools
+
 1. Open your browser's Developer Tools (F12)
 2. Go to "Application" or "Storage" tab
-3. Find "Cookies" → "https://localhost:6901"
+3. Find "Cookies" → "https://localhost:6902"
 4. Delete all cookies for this domain
 
 ### Method 2: Browser Settings
+
 1. Go to browser settings/preferences
 2. Navigate to Privacy/Security settings
 3. Click "Clear browsing data" or "Clear cookies"
@@ -280,14 +287,17 @@ If you need to clear your login session or troubleshoot authentication:
 5. Choose time range and clear
 
 ### Method 3: Incognito/Private Mode
+
 - Use browser's incognito/private mode for a fresh session
 - No cookies are stored, so each session starts clean
 
 ### Method 4: Different Browser
+
 - Switch to a different browser for testing
 - Useful for comparing behavior across browsers
 
 **When to Clear Cookies:**
+
 - Authentication issues or login loops
 - Testing different user scenarios
 - Switching between different KASM containers
@@ -317,7 +327,7 @@ If build fails:
 ## ✅ Success Indicators
 
 - Container shows "Running" status in Docker Desktop
-- Web interface accessible at localhost:6901
+- Web interface accessible at localhost:6902
 - All virtual environments and gems are pre-installed
 - Kali Linux security tools are available
 - No startup delays for development environments
