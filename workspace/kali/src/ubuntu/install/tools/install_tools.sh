@@ -115,6 +115,8 @@ if [ ! -d /opt/venvs/flaskenv ]; then
         pymysql \
         psycopg2-binary \
         python-dotenv \
+        default-jdk \
+        default-jre-headless \
         boto3
     deactivate
     log "flaskenv ready"
