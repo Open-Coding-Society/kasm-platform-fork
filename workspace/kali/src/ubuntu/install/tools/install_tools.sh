@@ -78,7 +78,9 @@ apt-get install -y \
     ca-certificates \
     software-properties-common \
     && log "APT packages installed"
-    # Note: JDK packages not required as already provided by the base image 
+    # Note: JDK packages not required as already provided by the Kali base image
+    # Note: python3-venv required for Kali (build failure without it, but Ubuntu includes it by default)
+    # Note: lsof included explicitly (Ubuntu has it by default, but ensuring it's available for debugging)
     # default-jdk \
     # default-jre-headless \
 
@@ -115,8 +117,6 @@ if [ ! -d /opt/venvs/flaskenv ]; then
         pymysql \
         psycopg2-binary \
         python-dotenv \
-        default-jdk \
-        default-jre-headless \
         boto3
     deactivate
     log "flaskenv ready"
