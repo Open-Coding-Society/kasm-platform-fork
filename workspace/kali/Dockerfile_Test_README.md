@@ -42,16 +42,17 @@
 ### Option 1: Using Docker Desktop UI
 
 1. Go to the "Images" tab
-2. Click "Build an image"
-3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace/kali`
-4. Name the image: `kasm-kali-test:latest`
-5. Click "Build"
+2. Click "Build an image"  
+3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace`
+4. Set Dockerfile path to: `kali/Dockerfile`
+5. Name the image: `kasm-kali-test:latest`
+6. Click "Build"
 
-### Option 2: Using Terminal (if CLI issues persist)
+### Option 2: Using Terminal (Recommended)
 
 ```bash
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
-docker build -t kasm-kali-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build -f kali/Dockerfile -t kasm-kali-test:latest .
 ```
 
 ### Option 3: Clean Rebuild (Force rebuild without cache)
@@ -60,10 +61,10 @@ docker build -t kasm-kali-test:latest .
 # Clean up existing images and containers first
 docker stop kasm-kali-test-container 2>/dev/null || true
 docker rm kasm-kali-test-container 2>/dev/null || true
-docker rm kasm-kali-test-container 2>/dev/null || true
+
 # Clean build without cache
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
-docker build --no-cache -t kasm-kali-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build --no-cache -f kali/Dockerfile -t kasm-kali-test:latest .
 ```
 
 ### Option 4: Deep Clean + Rebuild (Free up maximum space)
@@ -83,8 +84,8 @@ docker system prune -f
 docker builder prune -f
 
 # Rebuild from scratch
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/kali
-docker build --no-cache --pull -t kasm-kali-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build --no-cache --pull -f kali/Dockerfile -t kasm-kali-test:latest .
 ```
 
 ## 🚀 Running the Container

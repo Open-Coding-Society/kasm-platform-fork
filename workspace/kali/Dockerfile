@@ -22,7 +22,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
                   /ubuntu/install/standard/custom_install.sh"
 
 # Copy install scripts
-COPY ./src/ $INST_DIR
+COPY shared/src/ $INST_DIR
+COPY kali/src/ $INST_DIR
 
 # Run installations
 RUN \

@@ -26,7 +26,8 @@ ENV DEBUG=false \
                   /ubuntu/install/standard/custom_install.sh"
 
 # Copy install scripts
-COPY ./src/ $INST_DIR
+COPY shared/src/ $INST_DIR
+COPY noble/src/ $INST_DIR
 # Run installations
 RUN \
   for SCRIPT in $INST_SCRIPTS; do \

@@ -43,15 +43,16 @@
 
 1. Go to the "Images" tab
 2. Click "Build an image"
-3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace/noble`
-4. Name the image: `kasm-noble-test:latest`
-5. Click "Build"
+3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace`
+4. Set Dockerfile path to: `noble/Dockerfile`
+5. Name the image: `kasm-noble-test:latest`
+6. Click "Build"
 
-### Option 2: Using Terminal (if CLI issues persist)
+### Option 2: Using Terminal (Recommended)
 
 ```bash
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build -f noble/Dockerfile -t kasm-noble-test:latest .
 ```
 
 ### Option 3: Clean Rebuild (Force rebuild without cache)
@@ -60,10 +61,10 @@ docker build -t kasm-noble-test:latest .
 # Clean up existing images and containers first
 docker stop kasm-noble-test-container 2>/dev/null || true
 docker rm kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
+
 # Clean build without cache
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build --no-cache -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build --no-cache -f noble/Dockerfile -t kasm-noble-test:latest .
 ```
 
 ### Option 4: Deep Clean + Rebuild (Free up maximum space)
@@ -83,8 +84,8 @@ docker system prune -f
 docker builder prune -f
 
 # Rebuild from scratch
-cd /Users/johnmortensen/open/kasm-platform-fork/workspace/noble
-docker build --no-cache --pull -t kasm-noble-test:latest .
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker build --no-cache --pull -f noble/Dockerfile -t kasm-noble-test:latest .
 ```
 
 ## 🚀 Running the Container
