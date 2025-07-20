@@ -131,6 +131,46 @@ docker-compose --profile noble --profile kali up -d
 docker-compose down
 ```
 
+### Publishing to Docker Hub Workflow
+
+```bash
+# 1. Login to Docker Hub
+docker login
+
+# 2. Build and tag images for Docker Hub
+docker-compose build
+docker tag kasm-noble-test:latest yourusername/kasm-noble-pages:latest
+docker tag kasm-kali-test:latest yourusername/kasm-kali-pages:latest
+
+# 3. Push to Docker Hub
+docker push yourusername/kasm-noble-pages:latest
+docker push yourusername/kasm-kali-pages:latest
+
+# 4. Tag with version numbers (recommended)
+docker tag yourusername/kasm-noble-pages:latest yourusername/kasm-noble-pages:v1.0
+docker tag yourusername/kasm-kali-pages:latest yourusername/kasm-kali-pages:v1.0
+docker push yourusername/kasm-noble-pages:v1.0
+docker push yourusername/kasm-kali-pages:v1.0
+```
+
+### KASM Multiserver Integration
+
+Once published to Docker Hub, integrate with KASM:
+
+```bash
+# 1. In KASM Admin Panel, add new workspace images:
+# Image: yourusername/kasm-noble-pages:latest
+# Image: yourusername/kasm-kali-pages:latest
+
+# 2. Configure workspace settings:
+# - Enable GPU (if needed)
+# - Set memory limits (4GB recommended)
+# - Configure persistent storage mapping
+
+# 3. Deploy across KASM multiserver infrastructure
+# Images will be automatically pulled from Docker Hub
+```
+
 ### Clean Rebuild Workflow
 
 ```bash

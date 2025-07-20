@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   # Ubuntu Noble Desktop Environment
+  # Docker Hub: yourusername/kasm-noble-pages:latest
   noble:
     build:
       context: .
@@ -18,6 +19,7 @@ services:
       - noble
     
   # Kali Linux Desktop Environment  
+  # Docker Hub: yourusername/kasm-kali-pages:latest
   kali:
     build:
       context: .
