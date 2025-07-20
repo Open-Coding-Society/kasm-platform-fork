@@ -19,19 +19,21 @@ ENV DEBIAN_FRONTEND=noninteractive \
                   /ubuntu/install/vs_code/install_vs_code.sh \
                   /ubuntu/install/docker/install_docker.sh \
                   /ubuntu/install/postman/install_postman.sh \
-                  /ubuntu/install/cleanup/cleanup.sh \
-                  /ubuntu/install/standard/custom_install.sh"
+                  /ubuntu/install/common_env/install_env.sh \
+                  /ubuntu/install/cleanup/cleanup.sh"
+# Educational Note: 
+# - install_env.sh runs AFTER tools are installed (dependency order)
+# - cleanup.sh runs LAST to clean up temporary files and caches
 
 # Copy install scripts
 COPY shared/src/ $INST_DIR
 COPY kali/src/ $INST_DIR
 
 # Copy shared scripts to /usr/bin for execution
-COPY shared/src/ubuntu/install/common_env/setup_python_envs.sh /usr/bin/
-COPY shared/src/ubuntu/install/common_env/setup_ruby_gems.sh /usr/bin/
-COPY shared/src/ubuntu/install/common_env/configure_shell.sh /usr/bin/
-COPY shared/src/ubuntu/install/common_env/configure_user.sh /usr/bin/
-RUN chmod +x /usr/bin/setup_python_envs.sh /usr/bin/setup_ruby_gems.sh /usr/bin/configure_shell.sh /usr/bin/configure_user.sh
+COPY shared/src/ubuntu/install/common_env/install_python_requirements.sh /usr/bin/
+COPY shared/src/ubuntu/install/common_env/install_ruby_gems.sh /usr/bin/
+COPY shared/src/ubuntu/install/common_env/install_system_bash.sh /usr/bin/
+COPY shared/src/ubuntu/install/common_env/configure_user_bash.sh /usr/bin/
 
 # Run installations
 RUN \
@@ -41,8 +43,10 @@ RUN \
   $STARTUPDIR/set_user_permission.sh $HOME && \
   rm -f /etc/X11/xinit/Xclients && \
   chown 1000:0 $HOME && \
-  /usr/bin/configure_user.sh && \
+  /usr/bin/configure_user_bash.sh && \
   rm -Rf ${INST_DIR}
+
+########## End Customizations ###########
 
 # Userspace Runtime
 ENV HOME=/home/kasm-user

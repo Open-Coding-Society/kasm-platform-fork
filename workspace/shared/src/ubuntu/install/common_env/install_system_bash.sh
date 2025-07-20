@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 set -ex
 
-# System-level Shell Configuration - Shared across all environments  
-# Handles: system aliases, PATH, environment variables, Docker settings
-# User-specific configs are handled by configure_user.sh
+# System-Level Bash Configuration - Global Settings for All Users
+# 
+# Handles: system aliases, PATH additions, environment variables, Docker settings
+# Target file: /etc/bash.bashrc (affects all users system-wide)
+# User-specific configs are handled by configure_user_bash.sh
+#
+# Educational Note: This demonstrates system vs user configuration separation
 BASHRC_FILE="/etc/bash.bashrc"
 
 # Helper functions

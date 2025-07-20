@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -ex
 
-# Simple User Configuration - Just add system bashrc to default profile
-# KASM will copy this to kasm-user automatically at runtime
+# User-Level Bash Configuration - KASM Profile Settings
+#
+# Handles: user prompt formatting, virtualenv display, double-prompt prevention
+# Target file: /home/kasm-default-profile/.bashrc (KASM user profile only)
+# System-wide configs are handled by install_system_bash.sh
+#
+# Educational Note: This demonstrates user-specific vs system-wide configuration
 
 USER_BASHRC="/home/kasm-default-profile/.bashrc"
 

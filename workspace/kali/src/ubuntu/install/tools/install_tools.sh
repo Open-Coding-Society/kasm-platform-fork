@@ -46,18 +46,6 @@ echo "kasm-user  ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers && log "Sud
 # ====== Shared Environment Setup ======
 echo "=== [3/4] Setting up shared development environment ==="
 
-# Setup Python virtual environments
-log "Running shared Python environment setup..."
-/usr/bin/setup_python_envs.sh
-
-# Setup Ruby gems
-log "Running shared Ruby gems setup..."
-/usr/bin/setup_ruby_gems.sh
-
-# Configure shell environment
-log "Running shared shell configuration..."
-/usr/bin/configure_shell.sh
-
 # ====== Cleanup ======
 echo "=== [4/4] Final cleanup ==="
 if [ -z ${SKIP_CLEAN+x} ]; then

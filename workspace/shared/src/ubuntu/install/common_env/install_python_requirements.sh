@@ -2,7 +2,7 @@
 set -ex
 
 # Common Python Virtual Environments Setup - Shared across all environments
-echo "=== [3/5] Creating Python virtual environments ==="
+echo "=== Creating Python virtual environments ==="
 mkdir -p /opt/venvs && chmod 755 /opt/venvs
 
 # Flask Environment
