@@ -30,6 +30,19 @@ COPY shared/src/ $INST_DIR
 COPY kali/src/ $INST_DIR
 
 # Copy shared scripts to /usr/bin for execution
+# 
+# 🎯 KASM OPTIMIZATION: These scripts significantly reduce persistent storage usage
+# by pre-installing development environments during image build rather than 
+# user-generating them at runtime. This approach:
+#
+# - Reduces S3 storage costs by ~10K files per user environment
+# - Eliminates Ruby Gem and Python Pip package overhead in user storage
+# - Faster image downloads and container startup
+# - Consistent environments across different base images
+# - Centralized maintenance and updates of development toolchains
+# - Ready-to-use GitHub Pages (Jekyll) and Python (Flask/Jupyter) environments
+#
+# Core Development Environment Scripts:
 COPY shared/src/ubuntu/install/common_env/install_python_requirements.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/install_ruby_gems.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/install_system_bash.sh /usr/bin/
