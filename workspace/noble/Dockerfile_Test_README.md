@@ -45,37 +45,37 @@
 2. Click "Build an image"
 3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace`
 4. Set Dockerfile path to: `noble/Dockerfile`
-5. Name the image: `kasm-noble-test:latest`
+5. Name the image: `kasm-noble-workspace:latest`
 6. Click "Build"
 
 ### Option 2: Using Terminal (Recommended)
 
 ```bash
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build -f noble/Dockerfile -t kasm-noble-test:latest .
+docker build -f noble/Dockerfile -t kasm-noble-workspace:latest .
 ```
 
 ### Option 3: Clean Rebuild (Force rebuild without cache)
 
 ```bash
 # Clean up existing images and containers first
-docker stop kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
+docker stop kasm-noble-workspace-container 2>/dev/null || true
+docker rm kasm-noble-workspace-container 2>/dev/null || true
 
 # Clean build without cache
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build --no-cache -f noble/Dockerfile -t kasm-noble-test:latest .
+docker build --no-cache -f noble/Dockerfile -t kasm-noble-workspace:latest .
 ```
 
 ### Option 4: Deep Clean + Rebuild (Free up maximum space)
 
 ```bash
 # Stop and remove all containers using KASM images
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest) 2>/dev/null || true
-docker rm $(docker ps -aq --filter ancestor=kasm-noble-test:latest) 2>/dev/null || true
+docker stop $(docker ps -q --filter ancestor=kasm-noble-workspace:latest) 2>/dev/null || true
+docker rm $(docker ps -aq --filter ancestor=kasm-noble-workspace:latest) 2>/dev/null || true
 
 # Remove KASM images
-docker rmi kasm-noble-test:latest 2>/dev/null || true
+docker rmi kasm-noble-workspace:latest 2>/dev/null || true
 
 # Clean Docker system (removes unused containers, networks, images)
 docker system prune -f
@@ -85,7 +85,7 @@ docker builder prune -f
 
 # Rebuild from scratch
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build --no-cache --pull -f noble/Dockerfile -t kasm-noble-test:latest .
+docker build --no-cache --pull -f noble/Dockerfile -t kasm-noble-workspace:latest .
 ```
 
 ## 🚀 Running the Container
@@ -93,7 +93,7 @@ docker build --no-cache --pull -f noble/Dockerfile -t kasm-noble-test:latest .
 ### Via Docker Desktop UI:
 
 1. Go to "Images" tab
-2. Find `kasm-noble-test:latest`
+2. Find `kasm-noble-workspace:latest`
 3. Click "Run" button
 4. Configure ports:
    - Host Port 6901 → Container Port 6901 (Web/VNC)
@@ -106,34 +106,34 @@ docker build --no-cache --pull -f noble/Dockerfile -t kasm-noble-test:latest .
 **Minimal Command (recommended):**
 
 ```bash
-docker run -d --name kasm-noble-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -d --name kasm-noble-workspace-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-workspace:latest
 ```
 
 **If you get "container name already in use" error:**
 ```bash
 # Stop and remove the existing container first
-docker stop kasm-noble-test-container 2>/dev/null || true
-docker rm kasm-noble-test-container 2>/dev/null || true
+docker stop kasm-noble-workspace-container 2>/dev/null || true
+docker rm kasm-noble-workspace-container 2>/dev/null || true
 
 # Then run the container again
-docker run -d --name kasm-noble-test-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -d --name kasm-noble-workspace-container -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-workspace:latest
 ```
 
 **Full Command (with optional features):**
 
 ```bash
 docker run -d \
-  --name kasm-noble-test-container \
+  --name kasm-noble-workspace-container \
   -p 6901:6901 \
   --shm-size=512m \
   -e VNC_PW=password \
-  kasm-noble-test:latest
+  kasm-noble-workspace:latest
 ```
 
 **Interactive Command (for debugging):**
 
 ```bash
-docker run -it --rm -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-test:latest
+docker run -it --rm -p 6901:6901 --shm-size=512m -e VNC_PW=password kasm-noble-workspace:latest
 ```
 
 ## 🌐 Accessing Your KASM Workspace
@@ -201,16 +201,16 @@ This test validates:
 
 **Via Docker Desktop UI:**
 1. Go to "Containers" tab
-2. Find your running `kasm-noble-test-container`
+2. Find your running `kasm-noble-workspace-container`
 3. Click "Stop" button
 
 **Via Terminal:**
 ```bash
 # Stop by container name:
-docker stop kasm-noble-test-container
+docker stop kasm-noble-workspace-container
 
 # Or stop by image (stops all containers using this image):
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
+docker stop $(docker ps -q --filter ancestor=kasm-noble-workspace:latest)
 ```
 
 ### Remove the Container
@@ -221,7 +221,7 @@ docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
 **Via Terminal:**
 ```bash
 # Remove by container name:
-docker rm kasm-noble-test-container
+docker rm kasm-noble-workspace-container
 
 # Or remove all stopped containers:
 docker container prune -f
@@ -238,7 +238,7 @@ lsof -i :6901
 sudo lsof -ti:6901 | xargs kill -9
 
 # Or stop all KASM containers
-docker stop $(docker ps -q --filter ancestor=kasm-noble-test:latest)
+docker stop $(docker ps -q --filter ancestor=kasm-noble-workspace:latest)
 ```
 
 ## 🍪 Clearing Login Cookies

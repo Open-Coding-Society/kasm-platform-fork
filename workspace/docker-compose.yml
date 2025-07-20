@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
   # Ubuntu Noble Desktop Environment
-  # Docker Hub: yourusername/kasm-noble-pages:latest
+  # Fork Development: opencoding/kasm-noble-workspace:latest
+  # Master Production: opencoding/kasm-noble-workspace:stable
   noble:
     build:
       context: .
       dockerfile: noble/Dockerfile
-    image: kasm-noble-test:latest
-    container_name: kasm-noble-container
+    image: kasm-noble-workspace:latest
+    container_name: kasm-noble-workspace
     ports:
       - "6901:6901"
     environment:
@@ -19,13 +20,14 @@ services:
       - noble
     
   # Kali Linux Desktop Environment  
-  # Docker Hub: yourusername/kasm-kali-pages:latest
+  # Fork Development: opencoding/kasm-kali-workspace:latest
+  # Master Production: opencoding/kasm-kali-workspace:stable
   kali:
     build:
       context: .
       dockerfile: kali/Dockerfile
-    image: kasm-kali-test:latest
-    container_name: kasm-kali-container
+    image: kasm-kali-workspace:latest
+    container_name: kasm-kali-workspace
     ports:
       - "6902:6901"
     environment:

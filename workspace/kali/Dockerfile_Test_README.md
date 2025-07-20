@@ -6,7 +6,14 @@
 
 1. **Download Docker Desktop for Mac**:
    - Visit: https://www.docker.com/products/docker-desktop/
-   - Click "Download for Mac" (choose Apple Silicon or Intel based on your Mac)
+   - Click "Download for M```bash
+# Stop by conta# Remove by container name:
+docker rm kasm-kali-workspace-containerer name:
+docker stop kasm-kali-workspace-container
+
+# Or stop by image (stops all containers using this image):
+docker stop $(docker ps -q --filter ancestor=kasm-kali-workspace:latest)
+```oose Apple Silicon or Intel based on your Mac)
    - Open the downloaded `.dmg` file
    - Drag Docker to Applications folder
 
@@ -45,37 +52,37 @@
 2. Click "Build an image"  
 3. Set build context to: `/Users/johnmortensen/open/kasm-platform-fork/workspace`
 4. Set Dockerfile path to: `kali/Dockerfile`
-5. Name the image: `kasm-kali-test:latest`
+5. Name the image: `kasm-kali-workspace:latest`
 6. Click "Build"
 
 ### Option 2: Using Terminal (Recommended)
 
 ```bash
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build -f kali/Dockerfile -t kasm-kali-test:latest .
+docker build -f kali/Dockerfile -t kasm-kali-workspace:latest .
 ```
 
 ### Option 3: Clean Rebuild (Force rebuild without cache)
 
 ```bash
 # Clean up existing images and containers first
-docker stop kasm-kali-test-container 2>/dev/null || true
-docker rm kasm-kali-test-container 2>/dev/null || true
+docker stop kasm-kali-workspace-container 2>/dev/null || true
+docker rm kasm-kali-workspace-container 2>/dev/null || true
 
 # Clean build without cache
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build --no-cache -f kali/Dockerfile -t kasm-kali-test:latest .
+docker build --no-cache -f kali/Dockerfile -t kasm-kali-workspace:latest .
 ```
 
 ### Option 4: Deep Clean + Rebuild (Free up maximum space)
 
 ```bash
 # Stop and remove all containers using KASM images
-docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest) 2>/dev/null || true
-docker rm $(docker ps -aq --filter ancestor=kasm-kali-test:latest) 2>/dev/null || true
+docker stop $(docker ps -q --filter ancestor=kasm-kali-workspace:latest) 2>/dev/null || true
+docker rm $(docker ps -aq --filter ancestor=kasm-kali-workspace:latest) 2>/dev/null || true
 
 # Remove KASM images
-docker rmi kasm-kali-test:latest 2>/dev/null || true
+docker rmi kasm-kali-workspace:latest 2>/dev/null || true
 
 # Clean Docker system (removes unused containers, networks, images)
 docker system prune -f
@@ -85,7 +92,7 @@ docker builder prune -f
 
 # Rebuild from scratch
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker build --no-cache --pull -f kali/Dockerfile -t kasm-kali-test:latest .
+docker build --no-cache --pull -f kali/Dockerfile -t kasm-kali-workspace:latest .
 ```
 
 ## 🚀 Running the Container
@@ -93,7 +100,7 @@ docker build --no-cache --pull -f kali/Dockerfile -t kasm-kali-test:latest .
 ### Via Docker Desktop UI:
 
 1. Go to "Images" tab
-2. Find `kasm-kali-test:latest`
+2. Find `kasm-kali-workspace:latest`
 3. Click "Run" button
 4. Configure ports:
    - Host Port 6902 → Container Port 6901 (Web/VNC)
@@ -106,35 +113,35 @@ docker build --no-cache --pull -f kali/Dockerfile -t kasm-kali-test:latest .
 **Minimal Command (recommended):**
 
 ```bash
-docker run -d --name kasm-kali-test-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+docker run -d --name kasm-kali-workspace-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-workspace:latest
 ```
 
 **If you get "container name already in use" error:**
 
 ```bash
 # Stop and remove the existing container first
-docker stop kasm-kali-test-container 2>/dev/null || true
-docker rm kasm-kali-test-container 2>/dev/null || true
+docker stop kasm-kali-workspace-container 2>/dev/null || true
+docker rm kasm-kali-workspace-container 2>/dev/null || true
 
 # Then run the container again
-docker run -d --name kasm-kali-test-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+docker run -d --name kasm-kali-workspace-container -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-workspace:latest
 ```
 
 **Full Command (with optional features):**
 
 ```bash
 docker run -d \
-  --name kasm-kali-test-container \
+  --name kasm-kali-workspace-container \
   -p 6902:6901 \
   --shm-size=512m \
   -e VNC_PW=password \
-  kasm-kali-test:latest
+  kasm-kali-workspace:latest
 ```
 
 **Interactive Command (for debugging):**
 
 ```bash
-docker run -it --rm -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-test:latest
+docker run -it --rm -p 6902:6901 --shm-size=512m -e VNC_PW=password kasm-kali-workspace:latest
 ```
 
 ## 🌐 Accessing Your KASM Workspace
@@ -223,17 +230,17 @@ This test validates:
 **Via Docker Desktop UI:**
 
 1. Go to "Containers" tab
-2. Find your running `kasm-kali-test-container`
+2. Find your running `kasm-kali-workspace-container`
 3. Click "Stop" button
 
 **Via Terminal:**
 
 ```bash
 # Stop by container name
-docker stop kasm-kali-test-container
+docker stop kasm-kali-workspace-container
 
 # Or stop by image (stops all containers using this image)
-docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
+docker stop $(docker ps -q --filter ancestor=kasm-kali-workspace:latest)
 ```
 
 ### Remove the Container
@@ -264,7 +271,7 @@ lsof -i :6902
 sudo lsof -ti:6902 | xargs kill -9
 
 # Or stop all KASM containers
-docker stop $(docker ps -q --filter ancestor=kasm-kali-test:latest)
+docker stop $(docker ps -q --filter ancestor=kasm-kali-workspace:latest)
 ```
 
 ## 🍪 Clearing Login Cookies
