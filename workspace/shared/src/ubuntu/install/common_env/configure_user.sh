@@ -24,26 +24,28 @@ if ! grep -q 'set_custom_prompt' "$USER_BASHRC" 2>/dev/null; then
     echo "# Custom prompt with virtualenv support (prevents double prompts)" | sudo tee -a "$USER_BASHRC" > /dev/null
     cat << 'EOF' | sudo tee -a "$USER_BASHRC" > /dev/null
 set_custom_prompt() {
-  # Only set prompt if not already set by virtual environment
+  # More aggressive double-prompt prevention
   if [[ -n "$VIRTUAL_ENV" ]]; then
-    # Check if prompt already contains virtualenv name
     local venv_name="$(basename $VIRTUAL_ENV)"
-    if [[ "$PS1" != *"($venv_name)"* ]]; then
+    # Check multiple prompt patterns to prevent duplicates
+    if [[ "$PS1" != *"($venv_name)"* && "$PS1" != *"$venv_name"* ]]; then
       export PS1="($venv_name) \u:\w\$ "
     fi
   else
-    # No virtual environment, use clean prompt
-    export PS1="\u:\w\$ "
+    # Clean prompt without virtualenv, but preserve any existing customizations
+    if [[ "$PS1" != *"\u:\w\$ " ]]; then
+      export PS1="\u:\w\$ "
+    fi
   fi
 }
 
-# Set prompt initially
+# Set prompt initially and on every command
 set_custom_prompt
 
-# Override PROMPT_COMMAND to prevent conflicts
-PROMPT_COMMAND="set_custom_prompt"
+# Use PROMPT_COMMAND to ensure our prompt always wins
+export PROMPT_COMMAND="set_custom_prompt; $PROMPT_COMMAND"
 EOF
-    echo "=== ✅ Added custom prompt with virtualenv support and double-prompt prevention ==="
+    echo "=== ✅ Added custom prompt with enhanced double-prompt prevention ==="
 else
     echo "=== ✅ Custom prompt already configured ==="
 fi
