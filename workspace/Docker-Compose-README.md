@@ -10,6 +10,66 @@ This guide shows how to use Docker Compose to easily build and run both Noble an
 - **Port management**: Automatic port assignment (no conflicts)
 - **Easy cleanup**: Stop/start multiple containers with one command
 
+## Shortcut Guide to Docker Compose
+
+**Prerequisites**: Ensure Docker Desktop is installed and running. Adjust path according to your GitHub repository location.
+
+### Common / Abbreviated Steps (Both Environments)
+
+**Single Terminal Approach (Synchronous):**
+
+```bash
+# Step 1 - Build and Run both containers
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker-compose --profile noble --profile kali up -d --build
+
+# Step 2 - Test both environments
+## Noble: https://localhost:6901/
+## Kali: https://localhost:6902/
+
+# Step 3 - Stop and Remove containers
+docker-compose down
+
+# Step 4 - Clean Docker resources
+docker system prune -f
+```
+
+**Multi-Terminal Approach (Async Speed):**
+
+```bash
+# Terminal 1: Noble Environment
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace
+docker-compose --profile noble up -d --build
+
+# Terminal 2: Kali Environment (run simultaneously)
+cd /Users/johnmortensen/open/kasm-platform-fork/workspace  
+docker-compose --profile kali up -d --build
+
+# Both complete faster due to parallel execution
+# Test: Noble at https://localhost:6901/ & Kali at https://localhost:6902/
+
+# Either terminal: Stop both when done
+docker-compose down
+docker system prune -f
+```
+
+**Clean Rebuild (Force from scratch):**
+
+```bash
+# Step 1 - Stop and clean everything
+docker-compose down -v
+docker system prune -f
+
+# Step 2 - Force rebuild both (no cache)
+docker-compose --profile noble --profile kali build --no-cache
+
+# Step 3 - Start both environments
+docker-compose --profile noble --profile kali up -d
+
+# Step 4 - Test both, then cleanup when done
+docker-compose down
+```
+
 ## 📋 Quick Reference Commands
 
 ### Build Commands
