@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Ubuntu Noble Desktop Environment
+  noble:
+    build:
+      context: .
+      dockerfile: noble/Dockerfile
+    image: kasm-noble-test:latest
+    container_name: kasm-noble-container
+    ports:
+      - "6901:6901"
+    environment:
+      - VNC_PW=password
+    shm_size: 512m
+    restart: unless-stopped
+    profiles:
+      - noble
+    
+  # Kali Linux Desktop Environment  
+  kali:
+    build:
+      context: .
+      dockerfile: kali/Dockerfile
+    image: kasm-kali-test:latest
+    container_name: kasm-kali-container
+    ports:
+      - "6902:6901"
+    environment:
+      - VNC_PW=password
+    shm_size: 512m
+    restart: unless-stopped
+    profiles:
+      - kali
+
+  # Both environments (for comparison testing)
+  # Note: Uses different ports to avoid conflicts
