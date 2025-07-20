@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Ubuntu Noble Desktop Environment
   # Fork Development: opencoding/kasm-noble-workspace:latest

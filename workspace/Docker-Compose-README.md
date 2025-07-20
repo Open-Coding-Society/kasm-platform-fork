@@ -16,41 +16,42 @@ This guide shows how to use Docker Compose to easily build and run both Noble an
 
 ### Common / Abbreviated Steps (Both Environments)
 
-**Single Terminal Approach (Synchronous):**
+**Standard workflow with cache:**
 
 ```bash
-# Step 1 - Build and Run both containers
+# Step 1 - Build and Run both containers (This will take time)
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
 docker-compose --profile noble --profile kali up -d --build
+# Check if containers are running:
+docker ps
 
 # Step 2 - Test both environments
 ## Noble: https://localhost:6901/
 ## Kali: https://localhost:6902/
 
 # Step 3 - Stop and Remove containers
-docker-compose down
+docker-compose --profile noble --profile kali down
+# Check if containers are stopped:
+docker ps
+# Check if containers are deleted:
+docker ps -a
 
 # Step 4 - Clean Docker resources
 docker system prune -f
 ```
 
-**Multi-Terminal Approach (Async Speed):**
+**Multi-Terminal Approach to full rebuild:**
+
+Builds can take time so you could run them in parallel.
 
 ```bash
 # Terminal 1: Noble Environment
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace
-docker-compose --profile noble up -d --build
+docker-compose --profile noble build --no-cache
 
 # Terminal 2: Kali Environment (run simultaneously)
 cd /Users/johnmortensen/open/kasm-platform-fork/workspace  
-docker-compose --profile kali up -d --build
-
-# Both complete faster due to parallel execution
-# Test: Noble at https://localhost:6901/ & Kali at https://localhost:6902/
-
-# Either terminal: Stop both when done
-docker-compose down
-docker system prune -f
+docker-compose --profile kali build --no-cache
 ```
 
 **Clean Rebuild (Force from scratch):**
@@ -67,7 +68,7 @@ docker-compose --profile noble --profile kali build --no-cache
 docker-compose --profile noble --profile kali up -d
 
 # Step 4 - Test both, then cleanup when done
-docker-compose down
+docker-compose --profile noble --profile kali down
 ```
 
 ## 📋 Quick Reference Commands
@@ -175,14 +176,14 @@ docker-compose --profile noble --profile kali up -d
 # Kali:  https://localhost:6902
 
 # Stop both when done
-docker-compose down
+docker-compose --profile noble --profile kali down
 ```
 
 ### Clean Rebuild Workflow
 
 ```bash
 # Stop everything and clean up
-docker-compose down -v
+docker-compose --profile noble --profile kali down -v
 docker system prune -f
 
 # Force rebuild from scratch (no cache)
