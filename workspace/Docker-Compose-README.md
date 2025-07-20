@@ -24,6 +24,9 @@ docker-compose --profile kali build
 # Build both images
 docker-compose --profile noble --profile kali build
 
+# Force rebuild both (no cache)
+docker-compose --profile noble --profile kali build --no-cache
+
 # Force rebuild (no cache)
 docker-compose --profile noble build --no-cache
 docker-compose --profile kali build --no-cache
@@ -43,6 +46,10 @@ docker-compose --profile noble --profile kali up -d
 
 # Run with build (build if needed, then start)
 docker-compose --profile noble up -d --build
+
+# Force rebuild and run (two-step process)
+docker-compose --profile noble build --no-cache
+docker-compose --profile noble up -d
 ```
 
 ### Stop Commands
@@ -118,11 +125,37 @@ docker-compose down
 docker-compose down -v
 docker system prune -f
 
-# Rebuild from scratch
+# Force rebuild from scratch (no cache)
 docker-compose --profile noble --profile kali build --no-cache
 
 # Start fresh
 docker-compose --profile noble --profile kali up -d
+```
+
+### Sync vs Async Execution
+
+**Synchronous (blocking - waits for completion):**
+```bash
+# Build command blocks until complete
+docker-compose --profile noble --profile kali build --no-cache
+
+# Then start containers (waits for build to finish)
+docker-compose --profile noble --profile kali up -d
+```
+
+**Asynchronous one-liner (runs build, then immediately starts):**
+```bash
+# Build and start in one command (blocks during build, then starts)
+docker-compose --profile noble --profile kali up -d --build
+```
+
+**Background execution (truly async):**
+```bash
+# Start containers in background (returns immediately)
+docker-compose --profile noble --profile kali up -d
+
+# View progress without blocking
+docker-compose logs -f noble
 ```
 
 ## 🔧 Advanced Usage
