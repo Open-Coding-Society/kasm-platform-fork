@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-# Complete Shell Configuration - Shared across all environments
-# Handles: aliases, PATH, environment variables, virtualenv prompt, Docker settings
+# System-level Shell Configuration - Shared across all environments  
+# Handles: system aliases, PATH, environment variables, Docker settings
+# User-specific configs are handled by configure_user.sh
 BASHRC_FILE="/etc/bash.bashrc"
 
 # Helper functions
@@ -33,13 +34,13 @@ addToPATH() {
     fi
 }
 
-echo "=== [5/5] Configuring environment ==="
+echo "=== Configuring system environment ==="
 
-# Add aliases for virtual environments
+# System-level aliases for virtual environments (available globally)
 grep -q 'alias flaskenv=' "$BASHRC_FILE" || echo 'alias flaskenv="source /opt/venvs/flaskenv/bin/activate"' | sudo tee -a "$BASHRC_FILE"
 grep -q 'alias pagesenv=' "$BASHRC_FILE" || echo 'alias pagesenv="source /opt/venvs/pagesenv/bin/activate"' | sudo tee -a "$BASHRC_FILE"
 
-# Add VS Code alias (no-sandbox for container environments)
+# System-level VS Code alias (no-sandbox for container environments)
 grep -q 'alias code=' "$BASHRC_FILE" || echo 'alias code="code --no-sandbox"' | sudo tee -a "$BASHRC_FILE"
 
 # Add to PATH
@@ -47,25 +48,9 @@ addToPATH "/opt/venvs/flaskenv/bin"
 addToPATH "/opt/venvs/pagesenv/bin"
 addToPATH "/opt/gems/bin"
 
-# Set environment variables
+# Set system environment variables
 ensureEnvVar "GEM_HOME" "/opt/gems"
 ensureEnvVar "DOCKER_BUILDKIT" "1"
 ensureEnvVar "COMPOSE_DOCKER_CLI_BUILD" "1"
 
-# Add virtualenv prompt
-if ! grep -q 'VIRTUAL_ENV' "$BASHRC_FILE"; then
-    sudo tee -a "$BASHRC_FILE" > /dev/null <<'EOF'
-# Show Python virtualenv in prompt
-if [[ -n "$VIRTUAL_ENV" ]]; then
-    venv="($(basename $VIRTUAL_ENV)) "
-else
-    venv=""
-fi
-export PS1="${venv}\u:\w\$ "
-EOF
-    echo "=== ✅ Added virtualenv prompt logic to $BASHRC_FILE ==="
-else
-    echo "=== ✅ Virtualenv prompt logic already exists in $BASHRC_FILE ==="
-fi
-
-echo "=== ✅ Environment configuration complete ==="
+echo "=== ✅ System environment configuration complete ==="

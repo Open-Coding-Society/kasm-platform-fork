@@ -34,22 +34,22 @@ COPY noble/src/ $INST_DIR
 COPY shared/src/ubuntu/install/common_env/setup_python_envs.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/setup_ruby_gems.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/configure_shell.sh /usr/bin/
-RUN chmod +x /usr/bin/setup_python_envs.sh /usr/bin/setup_ruby_gems.sh /usr/bin/configure_shell.sh
+COPY shared/src/ubuntu/install/common_env/configure_user.sh /usr/bin/
+RUN chmod +x /usr/bin/setup_python_envs.sh /usr/bin/setup_ruby_gems.sh /usr/bin/configure_shell.sh /usr/bin/configure_user.sh
 # Run installations
 RUN \
   for SCRIPT in $INST_SCRIPTS; do \
     bash ${INST_DIR}${SCRIPT} || exit 1; \
   done && \
+  $STARTUPDIR/set_user_permission.sh $HOME && \
   rm -f /etc/X11/xinit/Xclients && \
+  chown 1000:0 $HOME && \
+  /usr/bin/configure_user.sh && \
   rm -Rf ${INST_DIR}
 
 ########## End Customizations ###########
 
-RUN chown 1000:0 $HOME
-RUN $STARTUPDIR/set_user_permission.sh $HOME
-
+# Userspace Runtime
 ENV HOME=/home/kasm-user
 WORKDIR $HOME
-RUN mkdir -p $HOME && chown -R 1000:0 $HOME
-
 USER 1000
