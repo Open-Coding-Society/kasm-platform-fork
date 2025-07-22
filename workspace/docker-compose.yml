@@ -1,0 +1,39 @@
+services:
+  # Ubuntu Noble Desktop Environment
+  # Fork Development: opencoding/kasm-noble-workspace:latest
+  # Master Production: opencoding/kasm-noble-workspace:stable
+  noble:
+    build:
+      context: .
+      dockerfile: noble/Dockerfile
+    image: kasm-noble-workspace:latest
+    container_name: kasm-noble-workspace
+    ports:
+      - "6901:6901"
+    environment:
+      - VNC_PW=password
+    shm_size: 512m
+    restart: unless-stopped
+    profiles:
+      - noble
+    
+  # Kali Linux Desktop Environment  
+  # Fork Development: opencoding/kasm-kali-workspace:latest
+  # Master Production: opencoding/kasm-kali-workspace:stable
+  kali:
+    build:
+      context: .
+      dockerfile: kali/Dockerfile
+    image: kasm-kali-workspace:latest
+    container_name: kasm-kali-workspace
+    ports:
+      - "6902:6901"
+    environment:
+      - VNC_PW=password
+    shm_size: 512m
+    restart: unless-stopped
+    profiles:
+      - kali
+
+  # Both environments (for comparison testing)
+  # Note: Uses different ports to avoid conflicts
