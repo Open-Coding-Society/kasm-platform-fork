@@ -53,12 +53,14 @@ COPY shared/src/ubuntu/install/common_env/install_ruby_gems.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/install_system_bash.sh /usr/bin/
 COPY shared/src/ubuntu/install/common_env/configure_user_bash.sh /usr/bin/
 # Run installations
-RUN \
+RUN set -x && \
   for SCRIPT in $INST_SCRIPTS; do \
+    echo "Running $SCRIPT"; \
     bash ${INST_DIR}${SCRIPT} || exit 1; \
   done && \
-  $STARTUPDIR/set_user_permission.sh $HOME && \
-  rm -f /etc/X11/xinit/Xclients && \
+  ls -l $STARTUPDIR && \
+  ls -l /usr/bin/configure_user_bash.sh || true && \
+  echo "HOME=$HOME" && \
   chown 1000:0 $HOME && \
   /usr/bin/configure_user_bash.sh && \
   rm -Rf ${INST_DIR}
